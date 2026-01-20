@@ -27,11 +27,19 @@ After installation, you will need to add the following assets. Create the folder
 1. Create a 'brolls' folder. This is where you put your b-rolls
 2. Create a 'media' folder. This will be needed by the program
 3. Create an 'output' folder. This is where the finished clip goes
+4. Create a 'swipe_files' folder. This is where the speech goes (in json format)
 
 ### Speech 💬
-Heygen can read out a script that you give it. Please be aware, the script will be deleted after the video has been recreated. This is to prevent repeating the exact same script in different videos for mass production. 
+Sample speech in json format:
 
-The script is inside the 'swipe_files' folder in json format.
+```json
+[
+    {
+        "id": 1,
+        "script": "Bear facts you didn't know part 1. Fact 1, Black bears are not always black. They can be cinnamon, blonde, blue-gray, or even white. This is a strategic color variation for thriving in diverse biomes. It is not for fashion. Fact 2, A bear's sense of smell is approximately 2,100 times better than a human's. They can detect a carcass from 20 miles away. This makes them nature's most efficient sanitation crew. Fact 3, During hibernation, a bear does not defecate. Their body forms a fecal plug. It is a logical, waste-not-want-not system."
+    }
+]
+```
 
 &nbsp;
 
