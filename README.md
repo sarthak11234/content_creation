@@ -27,7 +27,13 @@ After installation, you will need to add the following assets. Create the folder
 1. Create a 'brolls' folder. This is where you put your b-rolls
 2. Create a 'media' folder. This will be needed by the program
 3. Create an 'output' folder. This is where the finished clip goes
-4. Create a 'swipe_files' folder. This is where the speech goes (Please follow the sample speech json format below)
+4. Create a 'swipe_files' folder. This is where the speech goes (Please follow the sample speech json format below)  
+
+You can create all required folders with this command:
+
+```
+mkdir -p brolls media output swipe_files
+```
 
 ### Speech 💬
 Sample speech in json format:
@@ -76,12 +82,48 @@ If it runs successfully, your finished video will be inside the 'output' folder
 
 &nbsp;
 
-## Work with me 👋
+## Services for Non-Technical Founders & Creators 👋
 
-You are free to use my tool to create videos. If you'd would like to work with me, here's my offer:
+You are free to use and modify this tool. However, if you don't code and just want the **output**, I can be your production engine.
 
-1. 30 videos for USD1,000
-2. 1 free video demo
-3. Reach out to me/understand more:- 
-- [Calendly - book a call](https://calendly.com/georgedjangodev/content-creation-talk)
-- [X](https://x.com/georgedevz)
+**Let's be 100% clear about what I offer:**
+
+**I solve one problem: The Time vs. Output Problem.**
+- **I do NOT guarantee** that these videos will make you go viral, grow your followers, or improve your brand.
+- **I do NOT provide** marketing strategy, audience analysis, or content coaching.
+- **I am NOT** a social media expert.
+
+**What I AM is a technical builder who automated his own video grind.**
+- **I DO guarantee** that I can turn your topics/scripts into consistent, AI-presented short-form videos **at scale**.
+- **I DO provide** a reliable system that removes filming, editing, and production headaches.
+- **I AM the guy** you hire when you need to **post 5 times a day without it taking over your life.**
+
+Think of me as your **Short-Form Video Factory**. You provide the raw material (ideas), I handle the manufacturing (production).
+
+---
+
+### **Managed Production Package**
+
+**For $1,000 USD, you will receive 30 completed short-form videos.** This includes:
+
+1.  **Input & Requirements (What You Provide):**
+    *   **Topics/Scripts:** You can provide your own scripts, or I can generate them for you using AI based on your topics.
+    *   **B-Roll Clips:** You provide the B-roll video clips you want featured. (This ensures the content matches your brand/style).
+    *   **Avatar (Optional):** For a personalized AI avatar, you can provide 4-5 clear selfies. If not, I'll use a default avatar.
+
+2.  **Production & Delivery (What I Do):**
+    *   **1 Free Sample Video:** So you can approve the style, avatar, and quality with zero risk.
+    *   **Full Production:** Script-to-final-video for 30 clips (AI avatar, your B-rolls, captions, platform-ready formatting).
+    *   **Pure Output:** Consistent, ready-to-post content delivered on schedule.
+
+**This is for you if:** You believe in the "law of volume" and just need the content created, or you're testing a content channel and need bulk material fast.
+
+**This is NOT for you if:** You're looking for a marketing partner to strategize your viral growth or need me to source custom B-roll footage.
+
+---
+
+### **Next Steps**
+
+If you need **volume** and want to **outsource the production grind**, let's talk.
+- **Book a quick 10-min clarity call:** [Calendly Link](https://calendly.com/georgedjangodev/content-creation-talk)
+- **Follow my build-in-public journey:** [X / Twitter](https://x.com/georgedevz)
