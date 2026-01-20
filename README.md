@@ -4,10 +4,10 @@ I made a Reddit post explaining why I did this and how it helped me as a solopre
 
 ## Demo
 
-Here's the tool in action:
-
-![Demo GIF](docs/demo.gif)
-[![Demo Video](https://img.shields.io/badge/Watch_Demo_Here-red?style=for-the-badge)](https://cangeorgecode.github.io/content_creation/demo.mp4)
+<video width="640" controls>
+  <source src="https://georgedjangodev.github.io/content_creation/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 Or direct link [Youtube](https://youtube.com/shorts/nJI9Lmy-y7k)
 
