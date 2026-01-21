@@ -2,13 +2,8 @@ import os
 import random
 import argparse
 from pathlib import Path
-from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip, CompositeAudioClip
+from moviepy import VideoFileClip, concatenate_videoclips, AudioFileClip, CompositeAudioClip, vfx
 
-# --- PILLOW 10+ COMPATIBILITY PATCH ---
-import PIL.Image
-if not hasattr(PIL.Image, 'ANTIALIAS'):
-    PIL.Image.ANTIALIAS = PIL.Image.LANCZOS
-# --------------------------------------
 
 def reel_with_solid_broll_middle(
     main_video_path,
@@ -24,7 +19,7 @@ def reel_with_solid_broll_middle(
     main = VideoFileClip(main_video_path)
     TARGET = (1080, 1920)
     if main.size != TARGET:
-        main = main.resize(TARGET)
+        main = main.with_effects([vfx.Resize(TARGET)])
 
     total_dur = main.duration
     intro_end = total_dur * intro_percent
@@ -56,13 +51,17 @@ def reel_with_solid_broll_middle(
 
         # Smart letterbox/pillarbox — never crop content
         if raw.w / raw.h > 1080 / 1920:  # landscape → fit to width
-            clip = raw.resize(width=1080)
+            clip = raw.with_effects([vfx.Resize(width=1080)])
         else:
-            clip = raw.resize(height=1920)
-        clip = clip.on_color(size=(1080, 1920), color=(0,0,0), pos='center')
+            clip = raw.with_effects([vfx.Resize(height=1920)])
+        
+        # v2 replacement for on_color: Composite on a black background
+        from moviepy import ColorClip, CompositeVideoClip
+        bg = ColorClip(size=(1080, 1920), color=(0,0,0)).with_duration(clip.duration)
+        clip = CompositeVideoClip([bg, clip.with_position('center')])
 
         dur = min(clip.duration, max_broll_duration, needed)
-        middle_clips.append(clip.subclip(0, dur))
+        middle_clips.append(clip.subclipped(0, dur))
         needed -= dur
         i += 1
         raw.close()
@@ -73,9 +72,9 @@ def reel_with_solid_broll_middle(
 
     # Assemble
     final_clips = [
-        main.subclip(0, intro_end),
+        main.subclipped(0, intro_end),
         *middle_clips,
-        main.subclip(outro_start, total_dur)
+        main.subclipped(outro_start, total_dur)
     ]
 
     final_video = concatenate_videoclips(final_clips, method="compose")
@@ -104,20 +103,20 @@ def reel_with_solid_broll_middle(
             for t in timestamps:
                 # Add SFX at time t
                 # We start the SFX slightly before the cut for better feeling (optional, but let's keep it simple for now)
-                audio_layers.append(sfx_clip.set_start(t))
+                audio_layers.append(sfx_clip.with_start(t))
                 
             final_audio = CompositeAudioClip(audio_layers)
-            final_video = final_video.set_audio(final_audio)
+            final_video = final_video.with_audio(final_audio)
 
         except Exception as e:
             print(f"Failed to add SFX: {e}")
-            final_video = final_video.set_audio(main.audio)
+            final_video = final_video.with_audio(main.audio)
     else:
         print(f"No SFX found at {sfx_path} — skipping sound effects.")
-        final_video = final_video.set_audio(main.audio)
+        final_video = final_video.with_audio(main.audio)
     # --- SFX INJECTION END ---
 
-    final_video = final_video.set_duration(main.audio.duration)
+    final_video = final_video.with_duration(main.audio.duration)
 
     # Auto output path
     if output_path is None:
