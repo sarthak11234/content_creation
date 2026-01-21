@@ -2,7 +2,13 @@ import os
 import random
 import argparse
 from pathlib import Path
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip, CompositeAudioClip
+
+# --- PILLOW 10+ COMPATIBILITY PATCH ---
+import PIL.Image
+if not hasattr(PIL.Image, 'ANTIALIAS'):
+    PIL.Image.ANTIALIAS = PIL.Image.LANCZOS
+# --------------------------------------
 
 def reel_with_solid_broll_middle(
     main_video_path,
@@ -73,7 +79,45 @@ def reel_with_solid_broll_middle(
     ]
 
     final_video = concatenate_videoclips(final_clips, method="compose")
-    final_video = final_video.set_audio(main.audio).set_duration(main.audio.duration)
+    
+    # --- SFX INJECTION START ---
+    sfx_path = "assets/sfx/whoosh.mp3"
+    if os.path.exists(sfx_path):
+        print(f"Adding SFX from: {sfx_path}")
+        try:
+            sfx_clip = AudioFileClip(sfx_path)
+            # Calculate cut timestamps
+            # 1. Intro -> Middle
+            timestamps = [intro_end]
+            
+            # 2. Middle clips internal cuts
+            current_time = intro_end
+            for clip in middle_clips[:-1]: # All middle clips represent a cut at their end, except the last one which transitions to outro
+                current_time += clip.duration
+                timestamps.append(current_time)
+                
+            # 3. Middle -> Outro
+            # outro_start is already calculated above as intro_end + actual_middle_dur
+            timestamps.append(outro_start)
+            
+            audio_layers = [main.audio]
+            for t in timestamps:
+                # Add SFX at time t
+                # We start the SFX slightly before the cut for better feeling (optional, but let's keep it simple for now)
+                audio_layers.append(sfx_clip.set_start(t))
+                
+            final_audio = CompositeAudioClip(audio_layers)
+            final_video = final_video.set_audio(final_audio)
+
+        except Exception as e:
+            print(f"Failed to add SFX: {e}")
+            final_video = final_video.set_audio(main.audio)
+    else:
+        print(f"No SFX found at {sfx_path} — skipping sound effects.")
+        final_video = final_video.set_audio(main.audio)
+    # --- SFX INJECTION END ---
+
+    final_video = final_video.set_duration(main.audio.duration)
 
     # Auto output path
     if output_path is None:
